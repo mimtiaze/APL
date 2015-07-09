@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+
+int num,base_convert,base_input,num_temp[20];
+char input[20];
+
+void convert(){
+	int reminder;
+	
+	reminder=num%base_convert;
+	num=num/base_convert;
+
+	if(num!=0)
+		convert();
+
+	if(reminder>=10 && reminder<=36)
+		printf("%c",reminder+55);
+	else
+		printf("%d",reminder);
+
+}
+
+void take_input(){
+
+	int i,j,length_input,length_num,sum=0;
+
+	length_input=strlen(input);
+	for(i=0,j=0;i<length_input;i++,j++){
+		if(input[i]>=48 && input[i]<=57)
+			num_temp[j]=input[i]-48;
+		/*else if((input[i]>=65 && input[i]<=90) || (input[i]>=97 && input[i]<=122)){
+			num_temp[j]=0;
+			j++;
+		}*/
+		if(input[i]>=65 && input[i]<=90)
+			num_temp[j]=input[i]-55;
+		else if(input[i]>=97 && input[i]<=122)
+			num_temp[j]=input[i]-87;
+	}
+
+	length_num=j;
+	j--;
+	for(i=0;i<length_num;i++,j--)
+		sum=sum+(num_temp[i]*pow((float)base_input,j));
+	
+	num=sum;
+	return;
+
+}
+
+int main(){
+	
+	printf("Enter number: ");
+	scanf("%s",input);
+
+	printf("Given number's base: ");
+	scanf("%d",&base_input);
+	printf("converted base: ");
+	scanf("%d",&base_convert);
+
+	take_input();
+
+	printf("in %d base: ",base_convert);
+
+	convert();
+
+	printf("\n\n");
+
+	main();
+
+	return 0;
+}
